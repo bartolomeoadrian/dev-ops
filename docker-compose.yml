@@ -10,4 +10,5 @@ services:
         environment:
             - DEBUG=${DEBUG}
             - SENTRY_DSN=${SENTRY_DSN}
+            - GITHUB_TOKEN=${GITHUB_TOKEN}
         <<: [*restart_policy]

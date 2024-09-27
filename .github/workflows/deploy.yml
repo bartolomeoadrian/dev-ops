@@ -15,7 +15,7 @@ env:
 
 jobs:
   build:
-    runs-on: [self-hosted]
+    runs-on: [linux]
     permissions:
       contents: read
       packages: write
@@ -86,26 +86,25 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
-
-  deploy:
-    runs-on: [self-hosted]
-    needs: build
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Connect to k8s
-        uses: actions-hub/kubectl@v1.31.0
-        env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-
-      - name: Deploy to k8s
-        uses: actions-hub/kubectl@v1.31.0
-        with:
-          args: apply -f k8s/
-
-      - name: Rollout to k8s
-        uses: actions-hub/kubectl@v1.31.0
-        with:
-          args: rollout restart deployment app-deployment
+  #deploy:
+  #  runs-on: [self-hosted]
+  #  needs: build
+  #
+  #  steps:
+  #    - name: Checkout repository
+  #      uses: actions/checkout@v4
+  #
+  #    - name: Connect to k8s
+  #      uses: actions-hub/kubectl@v1.31.0
+  #      env:
+  #        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+  #
+  #    - name: Deploy to k8s
+  #      uses: actions-hub/kubectl@v1.31.0
+  #      with:
+  #        args: apply -f k8s/
+  #
+  #    - name: Rollout to k8s
+  #      uses: actions-hub/kubectl@v1.31.0
+  #      with:
+  #        args: rollout restart deployment app-deployment

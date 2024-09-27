@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Logo-up.jpg" height="60px"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Logo-up.jpg" height="100px"/>
 </p>
 
 # Dev Ops
