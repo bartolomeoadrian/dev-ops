@@ -1,0 +1,13 @@
+x-restart-policy: &restart_policy
+    restart: unless-stopped
+
+services:
+    api:
+        build:
+            context: ./docker
+        ports:
+            - "${PORT}:5000"
+        environment:
+            - DEBUG=${DEBUG}
+            - SENTRY_DSN=${SENTRY_DSN}
+        <<: [*restart_policy]
