@@ -5,20 +5,29 @@ from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import SystemMessage, UserMessage
 from azure.core.credentials import AzureKeyCredential
 
+# Manejar la falta de variables de entorno
+try:
+    SENTRY_DSN = os.environ["SENTRY_DSN"]
+    GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
+    DEBUG = os.environ["DEBUG"]
+except KeyError as e:
+    raise RuntimeError(f"Falta la variable de entorno: {e}")
+
+
 sentry_sdk.init(
-    dsn=os.environ["SENTRY_DSN"],
+    dsn=SENTRY_DSN,
     traces_sample_rate=1.0,
     profiles_sample_rate=1.0,
 )
 
 client = ChatCompletionsClient(
     endpoint="https://models.inference.ai.azure.com",
-    credential=AzureKeyCredential(os.environ["GITHUB_TOKEN"]),
+    credential=AzureKeyCredential(GITHUB_TOKEN),
 )
 
 app = flask.Flask(__name__)
 
-app.config["DEBUG"] = os.environ["DEBUG"] == "True"
+app.config["DEBUG"] = DEBUG == "True"
 
 
 @app.route("/", methods=["GET"])
