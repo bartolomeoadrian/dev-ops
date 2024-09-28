@@ -6,12 +6,22 @@ WORKDIR /app
 COPY requirements.txt .
 
 RUN python -m venv /opt/venv && \
-	. /opt/venv/bin/activate && \
-	pip install --no-cache-dir -r requirements.txt
+    . /opt/venv/bin/activate && \
+    pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Etapa 2: Imagen final mínima
+# Etapa 2: Pruebas
+FROM builder AS tester
+
+WORKDIR /app
+
+ENV PATH="/opt/venv/bin:$PATH"
+
+RUN . /opt/venv/bin/activate && \
+    python -m unittest discover -s tests
+
+# Etapa 3: Imagen final mínima
 FROM python:3.10-slim
 
 WORKDIR /app
