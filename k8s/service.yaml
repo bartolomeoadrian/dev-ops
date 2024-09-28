@@ -7,7 +7,6 @@ spec:
     app: app
   ports:
     - protocol: TCP
-      port: 81
-      targetPort: 80
-  type: NodePort
-  clusterIP: 10.103.0.187
+      port: 5000
+      targetPort: 5000
+  type: LoadBalancer

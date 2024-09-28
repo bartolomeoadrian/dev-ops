@@ -16,7 +16,7 @@ spec:
         - name: app
           image: ghcr.io/bartolomeoadrian/dev-ops:latest
           ports:
-            - containerPort: 80
+            - containerPort: 5000
           envFrom:
             - secretRef:
                 name: app-secrets
