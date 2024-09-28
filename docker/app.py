@@ -11,13 +11,9 @@ sentry_sdk.init(
     profiles_sample_rate=1.0,
 )
 
-endpoint = "https://models.inference.ai.azure.com"
-model_name = "meta-llama-3.1-405b-instruct"
-token = os.environ["GITHUB_TOKEN"]
-
 client = ChatCompletionsClient(
-    endpoint=endpoint,
-    credential=AzureKeyCredential(token),
+    endpoint="https://models.inference.ai.azure.com",
+    credential=AzureKeyCredential(os.environ["GITHUB_TOKEN"]),
 )
 
 app = flask.Flask(__name__)
@@ -35,13 +31,13 @@ def index():
 def chat():
     response = client.complete(
         messages=[
-            SystemMessage(content="You are a helpful assistant."),
+            SystemMessage(content="Sos un asistente feliz, podes responder con emojis"),
             UserMessage(content=flask.request.args.get("message")),
         ],
         temperature=1.0,
         top_p=1.0,
         max_tokens=1000,
-        model=model_name,
+        model="meta-llama-3.1-405b-instruct",
     )
 
     return response.choices[0].message.content

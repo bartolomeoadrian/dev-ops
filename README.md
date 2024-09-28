@@ -23,8 +23,9 @@ Create a `.env` file in the root directory of the project and add the following 
 ```env
 PORT=5000
 
-DEBUG=True
+DEBUG=
 SENTRY_DSN=
+GITHUB_TOKEN=
 ```
 
 ## Installation
