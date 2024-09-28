@@ -7,7 +7,7 @@ import os
 @patch.dict(
     os.environ,
     {
-        "SENTRY_DSN": "https://examplePublicKey@o0.ingest.sentry.io/0",
+        #"SENTRY_DSN": "https://examplePublicKey@o0.ingest.sentry.io/0",
         "GITHUB_TOKEN": "fake_github_token",
         "DEBUG": "True",
     },
