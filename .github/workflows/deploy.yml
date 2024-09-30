@@ -106,6 +106,9 @@ jobs:
             --docker-email="${{ github.actor }}@users.noreply.github.com"
             --dry-run=client -o yaml
 
+      - name: Debug registry secret output
+        run: echo "${{ steps.create_registry_secret.outputs.stdout }}"
+
       - name: Apply the secret
         uses: actions-hub/kubectl@v1.31.0
         with:
