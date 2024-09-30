@@ -106,10 +106,8 @@ jobs:
             --docker-email="${{ github.actor }}@users.noreply.github.com"
             --dry-run=client -o yaml
 
-      - name: Apply the secret
-        uses: actions-hub/kubectl@v1.31.0
-        with:
-          args: apply -f - "${{ env.CREATE_REGISTRY_SECRET }}"
+      - name: Save registry secret to file
+        run: echo "${{ env.CREATE_REGISTRY_SECRET }}" > k8s/registry-secret.yaml
 
       - name: Create Kubernetes Secret if not exists
         uses: actions-hub/kubectl@v1.31.0
@@ -122,10 +120,8 @@ jobs:
             --from-literal=GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             --dry-run=client -o yaml
 
-      - name: Apply the secret
-        uses: actions-hub/kubectl@v1.31.0
-        with:
-          args: apply -f - "${{ env.CREATE_SECRET }}"
+      - name: Save secret to file
+        run: echo "${{ env.CREATE_SECRET }}" > k8s/secret.yaml
 
       - name: Deploy to k8s
         uses: actions-hub/kubectl@v1.31.0
