@@ -94,7 +94,7 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
 
-      - name: Authenticate with GitHub Container Registry and Create Secret if Needed
+      - name: Create GitHub Container Registry Secret
         uses: actions-hub/kubectl@v1.31.0
         with:
           redirect-to: CREATE_REGISTRY_SECRET
@@ -106,10 +106,10 @@ jobs:
             --docker-email="${{ github.actor }}@users.noreply.github.com"
             --dry-run=client -o yaml
 
-      - name: Save registry secret to file
+      - name: Save GitHub Container Registry Secret to file
         run: echo "${{ env.CREATE_REGISTRY_SECRET }}" > k8s/registry-secret.yaml
 
-      - name: Create Kubernetes Secret if not exists
+      - name: Create App Secret
         uses: actions-hub/kubectl@v1.31.0
         with:
           redirect-to: CREATE_SECRET
@@ -120,7 +120,7 @@ jobs:
             --from-literal=GITHUB_TOKEN=${{ secrets.AZURE_TOKEN }}
             --dry-run=client -o yaml
 
-      - name: Save secret to file
+      - name: Save App Secret to file
         run: echo "${{ env.CREATE_SECRET }}" > k8s/secret.yaml
 
       - name: Deploy to k8s
